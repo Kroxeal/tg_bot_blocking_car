@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 
 from tg_bot_aiogram.tg_bot.States.states import RegistrationCarStates
 from tg_bot_aiogram.tg_bot.database.orm import Registration, session, UserManager
+from tg_bot_aiogram.tg_bot.validator import validation_car
 
 router = Router()
 
@@ -17,7 +18,7 @@ async def start_registration_car(message: types.Message, state: FSMContext):
 @router.message(RegistrationCarStates.brand_car)
 async def enter_brand_car(message: types.Message, state: FSMContext):
     await state.update_data(brand_car=message.text)
-    await message.answer('Введите год выпуска автомобиля. ')
+    await message.answer('Введите модель автомобиля. ')
     await state.set_state(RegistrationCarStates.model_car)
 
 
@@ -37,9 +38,13 @@ async def enter_year_car(message: types, state: FSMContext):
 
 @router.message(RegistrationCarStates.license_plate)
 async def enter_license_plate_car(message: types, state: FSMContext):
-    await state.update_data(license_plate=message.text)
-    await message.answer('Введите цвет автомобиля. ')
-    await state.set_state(RegistrationCarStates.color)
+    license_plate = message.text
+    if validation_car.validate_license_plate(license_plate=license_plate):
+        await state.update_data(license_plate=license_plate)
+        await message.answer('Введите цвет автомобиля. ')
+        await state.set_state(RegistrationCarStates.color)
+    else:
+        await message.answer('Введите номер автомоблия корректно!')
 
 
 @router.message(RegistrationCarStates.color)

@@ -1,11 +1,8 @@
 from aiogram import types, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import ReplyKeyboardRemove
 
 from tg_bot_aiogram.tg_bot.States.states import MyCarBlockes
-from tg_bot_aiogram.tg_bot.app import bot
-from tg_bot_aiogram.tg_bot.database.orm import CarManager
 from tg_bot_aiogram.tg_bot.keyboards import kb_main_menu
 
 router = Router()

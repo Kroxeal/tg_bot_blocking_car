@@ -26,3 +26,10 @@ class MyCarBlockes(IsBlocked):
     answer = State()
     chat_id = State()
 
+
+class PhoneState(StatesGroup):
+    waiting_for_phone = State()
+
+
+class LicensePlateState(StatesGroup):
+    waiting_for_license_plate = State()
